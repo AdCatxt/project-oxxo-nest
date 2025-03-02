@@ -30,6 +30,7 @@ export class ProductsService {
     }
   ]
   create(createProductDto: CreateProductDto) {
+    if (!createProductDto.productId) createProductDto.productId = uuid();
     createProductDto.productId = uuid();
 this.products.push(createProductDto);
 return createProductDto;
@@ -40,7 +41,7 @@ return createProductDto;
   }
 
   findOne(id: string) {
-    const productFound = this.products.filter(product => product.productId === id);
+    const productFound = this.products.find(product => product.productId === id);
     if (!productFound) throw new NotFoundException();
     return productFound;
   }
@@ -50,16 +51,24 @@ return createProductDto;
     if (!productFound) throw new NotFoundException();
     return productFound;
   }
+
   update(id: string, updateProductDto: UpdateProductDto) {
     let product = this.findOne(id);
-    return product = { 
+    this.products = this.products.map((product) => {
+      if(product.productId === id) return{
+        ...product,
+        ...updateProductDto
+      }
+      return product;
+    })
+    return { 
       ...product, 
       ...updateProductDto 
     };
   }
 
   remove(id: string) {
-    const [{ productId }] = this.findOne(id)
+    const { productId } = this.findOne(id)
     this.products = this.products.filter((product) => product.productId !== productId);
     return this.products;
   }
