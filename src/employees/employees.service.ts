@@ -28,14 +28,14 @@ export class EmployeesService {
     return employee;
   }
 
-  async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
-    let employeeToUpdate = await this.employeeRepository.preload({
-      employeeId: id,
-      ...updateEmployeeDto
-    })
-    this.employeeRepository.save(employeeToUpdate)
-    return employeeToUpdate
-}
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+    const employeeToUpdate = await this.employeeRepository.findOne({ where: { employeeId: id } });
+      if (!employeeToUpdate) {
+      throw new Error(`Employee with ID ${id} not found`);
+    }
+      const updatedEmployee = this.employeeRepository.merge(employeeToUpdate, updateEmployeeDto);
+      return await this.employeeRepository.save(updatedEmployee);
+  }
 
   remove(id: string) {
     this.employeeRepository.delete({
