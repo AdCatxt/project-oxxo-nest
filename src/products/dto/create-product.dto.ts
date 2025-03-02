@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsUUID, MaxLength, IsNumber, IS_INT } from 'class-validator';
+import { IsOptional, IsString, IsUUID, MaxLength, IsNumber } from 'class-validator';
 
 export class CreateProductDto {
     @IsUUID( '4')
