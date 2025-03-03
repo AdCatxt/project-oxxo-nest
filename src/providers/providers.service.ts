@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
 import { Provider } from './entities/provider.entity';
-import { NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class ProvidersService {
   constructor(
-    @InjectRepository(Provider) private providerRepository: Repository<Provider>
+    @InjectRepository(Provider)
+    private providerRepository: Repository<Provider>
   ) {}
 
   create(createProviderDto: CreateProviderDto) {
