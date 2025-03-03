@@ -42,7 +42,7 @@ return product;
 }
 
   findAll() {
-    return this.productRepository.find();
+    return this.productRepository.find()
   }
 
   findOne(id: string) {
@@ -54,9 +54,7 @@ return product;
   }
 
   findByProvider(id: string) {
-    const productFound = this.products.filter((product) => product.provider === id);
-    if (!productFound) throw new NotFoundException();
-    return productFound;
+    return 'OK'
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
