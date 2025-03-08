@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from './entities/location.entity';
@@ -10,32 +10,34 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class LocationsService {
   constructor(
     @InjectRepository(Location)
-    private locationsRepository: Repository<Location>,
+    private locationRepository: Repository<Location>,
   ){}
   create(createLocationDto: CreateLocationDto) {
-    return this.locationsRepository.save(createLocationDto);
+    return this.locationRepository.save(createLocationDto);
   }
 
   findAll() {
-    return this.locationsRepository.find();
+    return this.locationRepository.find();
   }
 
   findOne(id: number) {
-    const location = this.locationsRepository.findOneBy({
+    const location = this.locationRepository.findOneBy({
       locationId: id
     });
     if(!location) throw new Error('Location not found');
   }
 
-  update(id: number, updateLocationDto: UpdateLocationDto) {
-    const location = this.locationsRepository.findOneBy({
-      locationId: id
+  async update(id: number, updateLocationDto: UpdateLocationDto) {
+    const location = await this.locationRepository.preload({
+      locationId: id,
+      ...updateLocationDto
     });
-    if(!location) throw new Error('Location not found');
+    if(!location) throw new BadRequestException();
+    return this.locationRepository.save(location);
   }
 
   remove(id: number) {
-    return this.locationsRepository.delete({
+    return this.locationRepository.delete({
       locationId: id
     });
   }

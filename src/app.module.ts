@@ -15,7 +15,7 @@ import { RegionsModule } from './regions/regions.module';
   ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
     type: 'postgres',
-    host: process.env.host,
+    host: (process.env.host || 'localhost'),
     port: +(process.env.port || 5432),
     username: 'postgres',
     password: "PassWord", 
