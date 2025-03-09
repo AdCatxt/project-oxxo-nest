@@ -1,8 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UnauthorizedException, NotFoundException } from '@nestjs/common';
 import { ProvidersService } from './providers.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { User } from 'src/auth/entities/user.entity';
+import { UserData } from 'src/auth/decorators/user.decorator';
 
+@UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
   constructor(private readonly providersService: ProvidersService) {}
@@ -13,13 +18,16 @@ export class ProvidersController {
   }
 
   @Get()
-  findAll() {
+  findAll(@UserData() user: User) {
+    if (user.userRoles.includes("Employee")) throw new UnauthorizedException('Solo admins');
     return this.providersService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.providersService.findOne(id);
+    const provider = this.providersService.findOne(id);
+    if (!provider) throw new NotFoundException('No existe');
+    return provider;
   }
 
   @Get('/name/:name')
