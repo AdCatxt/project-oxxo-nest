@@ -6,8 +6,7 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/entities/user.entity';
 import { UserData } from 'src/auth/decorators/user.decorator';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('providers')
@@ -19,8 +18,7 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-  @Roles(['Admin'])
-  @UseGuards(RolesGuard)
+  @Auth('Employee')
   @Get()
   findAll(@UserData() user: User) {
     if (user.userRoles.includes("Employee")) throw new UnauthorizedException('Solo admins');
