@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from "bcrypt";
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
@@ -23,5 +24,7 @@ export class AuthService {
     }
     const match = await bcrypt.compare(createUserDto.userPassword, user.userPassword);
     if (!match) throw new UnauthorizedException('No estas autorizado');
+    const token = jwt.sign(JSON.stringify(user), "SecretKey");
+    return token;
   }
 }
