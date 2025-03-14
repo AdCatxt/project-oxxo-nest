@@ -6,13 +6,15 @@ import { User } from '../../auth/entities/user.entity';
 export class Manager {
     @PrimaryGeneratedColumn('uuid')
     managerId: string;
-    @Column()
+    @Column('text')
     managerFullName: string;
     @Column('float')
     managerSalary: number;
-    @Column()
+    @Column('text', {
+        unique: true
+    })
     managerEmail: string;
-    @Column()
+    @Column('text')
     managerPhone: string;
 
     @OneToOne(() => Location)
