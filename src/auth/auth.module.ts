@@ -14,9 +14,11 @@ import { EXPIRES_IN, JWT_KEY } from './constants/jwt.constants';
       signOptions: {
         expiresIn: EXPIRES_IN,
       },
+      global: true,
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService],
+  exports: [JwtModule],
 })
 export class AuthModule {}

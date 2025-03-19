@@ -6,7 +6,6 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/entities/user.entity';
 import { UserData } from 'src/auth/decorators/user.decorator';
-import { Auth } from 'src/auth/decorators/auth.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('providers')

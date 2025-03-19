@@ -12,8 +12,8 @@ export class ManagersService {
     @InjectRepository(Manager)
     private managerRepository: Repository<Manager>,
   ){}
-  create(createManagerDto: CreateManagerDto) {
-    return this.managerRepository.save(createManagerDto);
+  create(createManagerDto: CreateManagerDto){
+    return this.managerRepository.save(createManagerDto)
   }
 
   findAll() {
@@ -31,7 +31,7 @@ export class ManagersService {
     const managerToUpdate = await this.managerRepository.preload({
       managerId: id,
       ...updateManagerDto
-    })
+    });
     if (!managerToUpdate) throw new BadRequestException()
     return this.managerRepository.save(managerToUpdate);
   }
