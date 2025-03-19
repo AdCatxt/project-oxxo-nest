@@ -18,7 +18,6 @@ export class ProvidersController {
     return this.providersService.create(createProviderDto);
   }
 
-  @Auth('Employee')
   @Get()
   findAll(@UserData() user: User) {
     if (user.userRoles.includes("Employee")) throw new UnauthorizedException('Solo admins');

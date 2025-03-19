@@ -21,6 +21,14 @@ export class EmployeesService {
     return this.employeeRepository.find();
   }
 
+  findByLocation(id: number) {
+    return this.employeeRepository.findBy({
+      location:{
+        locationId: id
+      }
+    })
+  }
+
   findOne(id: string) {
     const employee = this.employeeRepository.findOneBy({
       employeeId: id
@@ -28,13 +36,16 @@ export class EmployeesService {
     return employee;
   }
 
-  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    const employeeToUpdate = await this.employeeRepository.findOne({ where: { employeeId: id } });
-      if (!employeeToUpdate) {
-      throw new Error(`Employee with ID ${id} not found`);
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto) {
+    const employeeToUpdate = await this.employeeRepository.preload({
+      employeeId: id,
+      ...updateEmployeeDto
+    })
+    if (!employeeToUpdate) {
+      throw new Error(`Empleado con ID ${id} no encontrado`);
     }
-      const updatedEmployee = this.employeeRepository.merge(employeeToUpdate, updateEmployeeDto);
-      return await this.employeeRepository.save(updatedEmployee);
+      this.employeeRepository.save(employeeToUpdate)
+      return employeeToUpdate;
   }
 
   remove(id: string) {
