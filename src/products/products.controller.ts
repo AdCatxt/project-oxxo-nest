@@ -6,8 +6,11 @@ import { v4 as uuid } from 'uuid';
 import { ParseUUIDPipe } from '@nestjs/common'; 
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { ROLES } from 'src/auth/constants/roles.constants';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiAuth()
+@ApiTags('Productos')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}

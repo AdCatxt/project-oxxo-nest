@@ -1,12 +1,25 @@
 import { IsEmail, IsIn, IsOptional, IsString, MinLength } from "class-validator";
+import { User } from "../entities/user.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
-export class CreateUserDto {
+export class CreateUserDto extends User {
+    @ApiProperty({
+        default: 'user@email.com'
+    })
     @IsEmail()
-    userEmail: string;
+    declare userEmail: string;
+
+    @ApiProperty({
+        default: 'password'
+    })
     @IsString()
     @MinLength(8)
-    userPassword: string;
+    declare userPassword: string;
+
+    @ApiProperty({
+        default: ['Employee']
+    })
     @IsOptional()
     @IsIn(['Employee', 'Manager', 'Admin'])
-    userRoles: string[];
+    declare userRoles: string[];
 }

@@ -7,8 +7,10 @@ import { UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/entities/user.entity';
 import { UserData } from 'src/auth/decorators/user.decorator';
 import { ApiAuth } from 'src/auth/decorators/api.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
 @ApiAuth()
+@ApiTags('Proveedores')
 @UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
