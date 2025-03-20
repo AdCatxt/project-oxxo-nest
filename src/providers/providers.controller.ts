@@ -6,7 +6,9 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { User } from 'src/auth/entities/user.entity';
 import { UserData } from 'src/auth/decorators/user.decorator';
+import { ApiAuth } from 'src/auth/decorators/api.decorator';
 
+@ApiAuth()
 @UseGuards(AuthGuard)
 @Controller('providers')
 export class ProvidersController {
