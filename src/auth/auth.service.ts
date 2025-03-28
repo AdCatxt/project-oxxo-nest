@@ -26,7 +26,9 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('No hay nada');
     }
-    const match = await bcrypt.compare(loginUserDto.userPassword, user.userPassword);
+    const match = await bcrypt.compare(
+      loginUserDto.userPassword,
+      user.userPassword);
     if (!match) throw new UnauthorizedException('No estas autorizado');
     const payload = {
       userEmail: user.userEmail,
