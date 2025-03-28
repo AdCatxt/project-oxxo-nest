@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
+  //@Auth(ROLES.EMPLOYEE, ROLES.MANAGER)
   @Post()
   create(@Body(new ValidationPipe()) createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);

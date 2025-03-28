@@ -11,7 +11,7 @@ export class CreateLocationDto extends Location {
     declare locationAdress: string;
     @IsArray()
     @ArrayNotEmpty()
-    declare locationLating: number[];
+    declare locationLatLng: number[];
     @IsObject()
     @IsOptional()
     declare region: Region;

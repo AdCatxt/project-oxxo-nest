@@ -25,7 +25,7 @@ export class Location {
         default: [127985, 823479]
     })
     @Column('simple-array')
-    locationLating: number[];
+    locationLatLng: number[];
 
     @OneToOne(() => Manager, {
         eager: true
