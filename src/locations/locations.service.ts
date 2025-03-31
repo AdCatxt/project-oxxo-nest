@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { Location } from './entities/location.entity';
@@ -24,7 +24,8 @@ export class LocationsService {
     const location = this.locationRepository.findOneBy({
       locationId: id
     });
-    if(!location) throw new Error('Location not found');
+    if(!location) throw new NotFoundException('Location not found');
+    return location;
   }
 
   async update(id: number, updateLocationDto: UpdateLocationDto) {
