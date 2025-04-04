@@ -2,19 +2,19 @@ import { IsEmail, IsNumber, IsObject, IsOptional, IsString, MaxLength } from "cl
 import { Manager } from "../entities/manager.entity";
 import { Location } from "../../locations/entities/location.entity";
 
-export class CreateManagerDto extends Manager {
+export class CreateManagerDto {
     @IsString()
     @MaxLength(100)
-    declare managerFullName: string;
+    managerFullName: string;
     @IsString()
     @IsEmail()
-    declare managerEmail: string;
+    managerEmail: string;
     @IsNumber()
-    declare managerSalary: number;
+    managerSalary: number;
     @IsString()
     @MaxLength(15)
-    declare managerPhone: string;
+    managerPhone: string;
     @IsObject()
     @IsOptional()
-    declare location: Location;
+    location: Location;
 }

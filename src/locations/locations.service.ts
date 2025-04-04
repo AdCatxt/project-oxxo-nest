@@ -36,7 +36,7 @@ export class LocationsService {
     await this.managerRepository
       .createQueryBuilder()
       .update()
-      .set({ location: null }) 
+      .set({ location: undefined }) 
       .where("locationId = :id", { id })
       .execute();
   
