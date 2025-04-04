@@ -1,18 +1,35 @@
-import { ArrayNotEmpty, IsArray, IsObject, IsOptional, IsString, MaxLength } from "class-validator";
-import { Location } from "../entities/location.entity";
+import { ApiProperty } from "@nestjs/swagger";
+import { ArrayNotEmpty, IsArray, IsObject, IsOptional, IsString, IsUUID, MaxLength } from "class-validator";
 import { Region } from "src/regions/entities/region.entity";
 
-export class CreateLocationDto extends Location {
+export class CreateLocationDto {
+    
+    @ApiProperty({
+        default: "OCXO de la Esquina"
+    })
     @IsString()
-    @MaxLength(35)
-    declare locationName: string;
+    @MaxLength(40)
+    locationName: string;
+
+    @ApiProperty({
+        default: "Avenida x, S/N , 10938"
+    })
     @IsString()
     @MaxLength(160)
-    declare locationAdress: string;
+    locationAddress: string;
+
+    @ApiProperty({
+        default: [50,53]
+    })
     @IsArray()
     @ArrayNotEmpty()
-    declare locationLatLng: number[];
+    locationLatLng: number[];
+    
     @IsObject()
     @IsOptional()
-    declare region: Region;
+    region: Region;
+
+    @IsUUID()
+    @IsOptional()
+    manager: string;
 }
